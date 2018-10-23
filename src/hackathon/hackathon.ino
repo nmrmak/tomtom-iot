@@ -1,8 +1,8 @@
 #include "oled_display.h"
 #include "connection.h"
+#include "json_parsing.h"
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
-#include <ArduinoJson.h>
 
 const char* host = "sharing.test.navcloud.tomtom.com";
 String ssid = "WTH V.4 Guests";
@@ -38,16 +38,6 @@ boolean wifiConnection() {
   }
   Serial.println("Timed out.");
   return false;
-}
-
-String parseChannelFromJson(String json)
-{
-  DynamicJsonBuffer jsonBuffer(200);
-  JsonObject& root = jsonBuffer.parseObject(json);
-  if (!root.success()) {
-    return "ERROR";
-  }
-  return String((const char*) root["channelId"]);
 }
 
 void setup() {
