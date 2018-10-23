@@ -36,6 +36,14 @@ void setup() {
     display.clear();
     display.display();
     display.drawString(64, 7, parseChannelFromJson(restResponse));
+    auto userEtas = parseUserEtaPairsFromJson(restResponse);
+    const int userCount = userEtas.size();
+    Serial.println("User count: " + userCount);
+    for(auto user : userEtas)
+    {
+      Serial.println(" - user: " + user.username);
+      Serial.println(" - ETA:  " + user.eta);
+    }
     display.display();
   }
 }
