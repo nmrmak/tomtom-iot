@@ -32,17 +32,14 @@ void setup() {
     Serial.print("Result(response): ");
     String restResponse = httpsGet(host, eta_full_url);
     Serial.println(restResponse);
-    parseChannelFromJson(restResponse);
-    display.clear();
-    display.display();
-    display.drawString(64, 7, parseChannelFromJson(restResponse));
-    auto userEtas = parseUserEtaPairsFromJson(restResponse);
+    //display.clear();
+    //display.display();
+    //display.drawString(64, 7, parseChannelFromJson(restResponse));
+    std::vector<UserEta> userEtas = parseUserEtaPairsFromJson(restResponse);
     const int userCount = userEtas.size();
-    Serial.println("User count: " + userCount);
     for(auto user : userEtas)
     {
-      Serial.println(" - user: " + user.username);
-      Serial.println(" - ETA:  " + user.eta);
+      Serial.println("User: " + user.username + " ETA: " + user.eta);
     }
     display.display();
   }
