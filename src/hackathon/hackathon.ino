@@ -1,6 +1,8 @@
 #include "oled_display.h"
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
+#include <ArduinoJson.h>
+
 const char* host = "sharing.test.navcloud.tomtom.com";
 String ssid = "WTH V.4 Guests";
 String pass = "20H@ck@thon18";
@@ -36,6 +38,16 @@ boolean wifiConnection() {
   return false;
 }
 
+String parseChannelFromJson(String json)
+{
+  DynamicJsonBuffer jsonBuffer(200);
+  JsonObject& root = jsonBuffer.parseObject(json);
+  if (!root.success()) {
+    return "ERROR";
+  }
+  return String((const char*) root["channelId"]);
+}
+
 String httpsPost(String url, String data) {
   if (client.connect(host, 443)) {
     client.println("POST " + url + " HTTP/1.1");
@@ -64,9 +76,10 @@ void setup() {
     Serial.print("Result(response): ");
     String restResponse = httpsPost(url, data);
     Serial.println(restResponse);
+    parseChannelFromJson(restResponse);
     display.clear();
     display.display();
-    display.drawString(64, 7, restResponse.substring(0,60).c_str());
+    display.drawString(64, 7, parseChannelFromJson(restResponse));
     display.display();
   }
 }
