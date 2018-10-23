@@ -10,4 +10,4 @@ const int SCL_PIN = D5;
 const boolean INVERT_DISPLAY = false; // true = pins at top | false = pins at the bottom
 const int externalLight = LED_BUILTIN; // LED_BUILTIN is is the built in LED on the Wemos
 
-void initialize_display(SSD1306Wire display);
+void initialize_display(SSD1306Wire &display);
