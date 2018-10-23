@@ -12,3 +12,4 @@ typedef struct UserEta_t {
 
 String parseChannelFromJson(String json);
 std::vector<UserEta> parseUserEtaPairsFromJson(String json);
+std::vector<String> parseChannelListFromJson(String json);

@@ -12,6 +12,18 @@ String parseChannelFromJson(String json)
   return String((const char*) root["channelId"]);
 }
 
+std::vector<String> parseChannelListFromJson(String json)
+{
+  DynamicJsonBuffer jsonBuffer(512);
+  JsonArray& root = jsonBuffer.parseArray(json);
+  std::vector<String> returnValue;
+  for(auto channel : root)
+  {
+    returnValue.push_back(String((const char*) channel));
+  }
+  return returnValue;
+}
+
 std::vector<UserEta> parseUserEtaPairsFromJson(String json)
 {
   DynamicJsonBuffer jsonBuffer(512);
