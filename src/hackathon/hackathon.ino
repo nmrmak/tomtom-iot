@@ -44,7 +44,7 @@ void setup() {
   Initialize();
   Serial.begin(115200);
     if (wifiConnection()) {
-    Serial.println("POST to https://" + String(host) + url);
+    Serial.println("GET to https://" + String(host) + url);
     Serial.print("Result(response): ");
     String restResponse = httpsGet(host, url2);
     Serial.println(restResponse);
