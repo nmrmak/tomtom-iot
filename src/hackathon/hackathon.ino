@@ -5,6 +5,7 @@ const char* host = "sharing.test.navcloud.tomtom.com";
 String ssid = "WTH V.4 Guests";
 String pass = "20H@ck@thon18";
 String url = "/api/v2/share";
+String url2 = "/api/v2/update/26a9252c-8389-4a98-9741-742eda03fe28";
 String data = "{\"email\": \"sencerburak.okumus@tomtom.com\", \"storeName\": \"device-location\", \"valid\": 1000}";
 
 WiFiClientSecure client;
@@ -36,6 +37,19 @@ boolean wifiConnection() {
   return false;
 }
 
+String httpsGet(String url) {
+  if (client.connect(host, 443)) {
+    client.println(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n");
+    delay(10);
+    String response = client.readString();
+    int bodypos =  response.indexOf("\r\n\r\n") + 4;
+    return response.substring(bodypos);
+  }
+  else {
+    return "ERROR";
+  }
+}
+
 String httpsPost(String url, String data) {
   if (client.connect(host, 443)) {
     client.println("POST " + url + " HTTP/1.1");
@@ -62,7 +76,7 @@ void setup() {
     if (wifiConnection()) {
     Serial.println("POST to https://" + String(host) + url);
     Serial.print("Result(response): ");
-    String restResponse = httpsPost(url, data);
+    String restResponse = httpsGet(url2);
     Serial.println(restResponse);
     display.clear();
     display.display();
