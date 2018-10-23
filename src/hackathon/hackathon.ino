@@ -1,7 +1,7 @@
 #include "oled_display.h"
 #include "connection.h"
 #include "json_parsing.h"
-#include <ESP8266WiFi.h>
+#include "wifi_connection.h"
 #include <WiFiClientSecure.h>
 
 const char* host = "sharing.test.navcloud.tomtom.com";
@@ -24,28 +24,10 @@ void Initialize() {
   Serial.println("done.");  
 }
 
-boolean wifiConnection() {
-  WiFi.begin(ssid.c_str(), pass.c_str());
-  int count = 0;
-  Serial.print("Waiting for Wi-Fi connection");
-  while ( count < 20 ) {
-    if (WiFi.status() == WL_CONNECTED) {
-      Serial.println();
-      Serial.println("Connected!");
-      return (true);
-    }
-    delay(500);
-    Serial.print(".");
-    count++;
-  }
-  Serial.println("Timed out.");
-  return false;
-}
-
 void setup() {
   Initialize();
   Serial.begin(115200);
-    if (wifiConnection()) {
+    if (wifiConnection(ssid, pass)) {
     Serial.println("GET to https://" + String(host) + eta_full_url);
     Serial.print("Result(response): ");
     String restResponse = httpsGet(host, eta_full_url);
