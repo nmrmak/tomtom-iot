@@ -1,4 +1,5 @@
 #include "oled_display.h"
+#include "connection.h"
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
 #include <ArduinoJson.h>
@@ -49,46 +50,13 @@ String parseChannelFromJson(String json)
   return String((const char*) root["channelId"]);
 }
 
-String httpsGet(String url) {
-  if (client.connect(host, 443)) {
-    client.println(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n");
-    delay(10);
-    String response = client.readString();
-    int bodypos = response.indexOf("\r\n\r\n") + 4;
-    return response.substring(bodypos);
-  }
-  else {
-    return "ERROR";
-  }
-}
-
-String httpsPost(String url, String data) {
-  if (client.connect(host, 443)) {
-    client.println("POST " + url + " HTTP/1.1");
-    client.println("Host: " + (String)host);
-    client.println("Authorization: SessionId cdf09787-d775-42ad-afe7-5d4a3fcf12ed");
-    client.println("Content-Type: application/json");
-    client.print("Content-Length: ");
-    client.println(data.length());
-    client.println();
-    client.println(data);
-    delay(10);
-    String response = client.readString();
-    int bodypos =  response.indexOf("\r\n\r\n") + 4;
-    return response.substring(bodypos);
-  }
-  else {
-    return "ERROR";
-  }
-}
-
 void setup() {
   Initialize();
   Serial.begin(115200);
     if (wifiConnection()) {
     Serial.println("POST to https://" + String(host) + url);
     Serial.print("Result(response): ");
-    String restResponse = httpsGet(url2);
+    String restResponse = httpsGet(host, url2);
     Serial.println(restResponse);
     parseChannelFromJson(restResponse);
     display.clear();
