@@ -7,8 +7,10 @@
 const char* host = "sharing.test.navcloud.tomtom.com";
 String ssid = "WTH V.4 Guests";
 String pass = "20H@ck@thon18";
-String url = "/api/v2/share";
-String url2 = "/api/v2/update/26a9252c-8389-4a98-9741-742eda03fe28";
+String channel_create_url = "/api/v2/share";
+String eta_get_url = "/api/v2/update";
+String eta_channel_id = "2dacf261-c2c6-4673-a1d8-ec7e4bc02ff5";
+String eta_full_url = eta_get_url + "/" + eta_channel_id;
 String data = "{\"email\": \"sencerburak.okumus@tomtom.com\", \"storeName\": \"device-location\", \"valid\": 1000}";
 
 WiFiClientSecure client;
@@ -44,9 +46,9 @@ void setup() {
   Initialize();
   Serial.begin(115200);
     if (wifiConnection()) {
-    Serial.println("GET to https://" + String(host) + url);
+    Serial.println("GET to https://" + String(host) + eta_full_url);
     Serial.print("Result(response): ");
-    String restResponse = httpsGet(host, url2);
+    String restResponse = httpsGet(host, eta_full_url);
     Serial.println(restResponse);
     parseChannelFromJson(restResponse);
     display.clear();
