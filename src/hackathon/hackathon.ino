@@ -47,33 +47,14 @@ std::vector<UserEta> getUserEtaPairs(String host, std::vector<String> vectorOfCh
 void setup() {
   Initialize();
   Serial.begin(115200);
-    if (wifiConnection(ssid, pass)) {
-    //Serial.println("GET to https://" + String(host) + eta_full_url);
+  if (wifiConnection(ssid, pass)) {
     Serial.print("Result(response): ");
-    //String restResponse = httpsGet(host, eta_full_url);
-    //String restResponse = httpsGet(host, channel_list_get_url);
-    //Serial.println(restResponse);
-    //display.clear();
-    //display.display();
-    //display.drawString(64, 7, parseChannelFromJson(restResponse));
-    //std::vector<UserEta> userEtas = parseUserEtaPairsFromJson(restResponse);
-    //const int userCount = userEtas.size();
-    //for(auto user : userEtas)
-    //{
-    //  Serial.println("User: " + user.username + " ETA: " + user.eta);
-    //}
     std::vector<String> channelList = getVectorOfChannels(host);
     std::vector<UserEta> userEtas = getUserEtaPairs(host, channelList);
     for (auto eta : userEtas)
     {
       Serial.println("User: " + eta.username + ", ETA: " + eta.eta);
     }
-    
-    //for (auto element : channelList)
-    //{
-    //  Serial.println(element);
-    //}
-    display.display();
   }
 }
 
