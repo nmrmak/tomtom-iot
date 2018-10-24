@@ -46,17 +46,18 @@ std::vector<UserEta> getUserEtaPairs(String host, std::vector<String> vectorOfCh
 void setup() {
   Initialize();
   Serial.begin(115200);
-  if (wifiConnection(ssid, pass)) {
+ }
+
+void loop() {
+ if (wifiConnection(ssid, pass)) {
     Serial.print("Result(response): ");
     std::vector<String> channelList = getVectorOfChannels(host);
     std::vector<UserEta> userEtas = getUserEtaPairs(host, channelList);
-    for (auto eta : userEtas)
+    for (const auto eta : userEtas)
     {
       Serial.println("User: " + eta.username + ", ETA: " + eta.eta);
     }
   }
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
+  /* ETA resolution: 1s */
+  delay(1000);
 }
