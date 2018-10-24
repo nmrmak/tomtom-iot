@@ -46,17 +46,16 @@ std::vector<UserEta> getUserEtaPairs(String host, std::vector<String> vectorOfCh
     std::vector<UserEta> userEtasForThisChannel = parseUserEtaPairsFromJson(restResponse);
     userEtas.insert(std::end(userEtas), std::begin(userEtasForThisChannel), std::end(userEtasForThisChannel));
     Serial.println(String("frameCount: ") + String(frameCount) + String(" userEtas.size(): ") + String((int)userEtas.size()));
-//    ui.setFrames(frames, min(frameCount, (int)userEtas.size()));
+    ui.setFrames(frames, min(frameCount, (int)userEtas.size()));
     Serial.println("Before update");
-//    ui.init();
-//    ui.update();
+    ui.update();
     Serial.println("After update");
     for (const auto eta : userEtasForThisChannel)
     {
       Serial.println("User: " + eta.username + ", ETA: " + eta.eta);
-      display.clear();
-      display.drawString(64, 7, eta.username + String("\nETA: ") + eta.eta);
-      display.display();
+      //display.clear();
+      //display.drawString(64, 7, eta.username + String("\nETA: ") + eta.eta);
+      //display.display();
     }
   
   }
@@ -65,25 +64,28 @@ std::vector<UserEta> getUserEtaPairs(String host, std::vector<String> vectorOfCh
 
 void setup() {
   Initialize();
+  ui = OLEDDisplayUi(&display);
   Serial.begin(115200);
+  display.setFont(ArialMT_Plain_16);
+  display.setTextAlignment(TEXT_ALIGN_LEFT);
+  display.setContrast(255); // default is 255
   display.clear();
   display.display();
-  display.setFont(ArialMT_Plain_16);
-  display.setTextAlignment(TEXT_ALIGN_CENTER);
-  display.setContrast(255); // default is 255
   display.drawString(64, 7, "ETA Monitor\nTeam 26\nConnecting...");
   display.display();
-//  ui.setTargetFPS(30);
-//  ui.setIndicatorPosition(BOTTOM);
-//  ui.setIndicatorDirection(LEFT_RIGHT);
-//  ui.setFrameAnimation(SLIDE_LEFT);
-//  ui.setFrames(frames, frameCount);
-//  ui.init();
+  delay(1000);
+  
+  ui.setTargetFPS(30);
+  ui.setIndicatorPosition(BOTTOM);
+  ui.setIndicatorDirection(LEFT_RIGHT);
+  ui.setFrameAnimation(SLIDE_LEFT);
+  ui.setFrames(frames, frameCount);
+  ui.init();
 }
 
 
 void loop() {
-//  ui.update();
+  ui.update();
   if (wifiConnection(ssid, pass)) {
     Serial.print("Result(response): ");
     std::vector<String> channelList = getVectorOfChannels(host);
@@ -97,7 +99,7 @@ void drawFrame1(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
   // Demonstrates the 3 included default sizes. The fonts come from DFRobot_OLED12864Fonts.h file
   // Besides the default fonts there will be a program to convert TrueType fonts into this format
   display->setTextAlignment(TEXT_ALIGN_LEFT);
-  display->setFont(ArialMT_Plain_10);
+  display->setFont(ArialMT_Plain_16);
   display->drawString(0 + x, 10 + y, "User: " + userEtas[0].username + "\nETA: " + userEtas[0].eta);
 }
 void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
@@ -105,7 +107,7 @@ void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
   // Demonstrates the 3 included default sizes. The fonts come from DFRobot_OLED12864Fonts.h file
   // Besides the default fonts there will be a program to convert TrueType fonts into this format
   display->setTextAlignment(TEXT_ALIGN_LEFT);
-  display->setFont(ArialMT_Plain_10);
+  display->setFont(ArialMT_Plain_16);
   display->drawString(0 + x, 10 + y, "User: " + userEtas[1].username + "\nETA: " + userEtas[1].eta);
 }
 void drawFrame3(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
@@ -113,7 +115,7 @@ void drawFrame3(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
   // Demonstrates the 3 included default sizes. The fonts come from DFRobot_OLED12864Fonts.h file
   // Besides the default fonts there will be a program to convert TrueType fonts into this format
   display->setTextAlignment(TEXT_ALIGN_LEFT);
-  display->setFont(ArialMT_Plain_10);
+  display->setFont(ArialMT_Plain_16);
   display->drawString(0 + x, 10 + y, "User: " + userEtas[2].username + "\nETA: " + userEtas[2].eta);
 }
 void drawFrame4(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
@@ -121,7 +123,7 @@ void drawFrame4(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
   // Demonstrates the 3 included default sizes. The fonts come from DFRobot_OLED12864Fonts.h file
   // Besides the default fonts there will be a program to convert TrueType fonts into this format
   display->setTextAlignment(TEXT_ALIGN_LEFT);
-  display->setFont(ArialMT_Plain_10);
+  display->setFont(ArialMT_Plain_16);
   display->drawString(0 + x, 10 + y, "User: " + userEtas[3].username + "\nETA: " + userEtas[3].eta);
 }
 void drawFrame5(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
@@ -129,6 +131,6 @@ void drawFrame5(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
   // Demonstrates the 3 included default sizes. The fonts come from DFRobot_OLED12864Fonts.h file
   // Besides the default fonts there will be a program to convert TrueType fonts into this format
   display->setTextAlignment(TEXT_ALIGN_LEFT);
-  display->setFont(ArialMT_Plain_10);
+  display->setFont(ArialMT_Plain_16);
   display->drawString(0 + x, 10 + y, "User: " + userEtas[4].username + "\nETA: " + userEtas[4].eta);
 }
