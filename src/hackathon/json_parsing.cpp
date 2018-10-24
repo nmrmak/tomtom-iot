@@ -39,7 +39,9 @@ std::vector<UserEta> parseUserEtaPairsFromJson(String json)
   for(auto username : usernames)
   {
     const UserEta userEta = UserEta(String(username), String((const char*)root[username]["value"]["eta"]));
-    userEtaArray.push_back(userEta);
+    if (String(userEta.eta) != "") {
+      userEtaArray.push_back(userEta);
+    }
   }
   
   return userEtaArray;
