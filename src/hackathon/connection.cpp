@@ -5,7 +5,6 @@ String httpsGet(String host, String url) {
   WiFiClientSecure client;
   if (client.connect(host, 443)) {
     client.println(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n");
-    delay(10);
     String response = client.readString();
     int bodypos = response.indexOf("\r\n\r\n") + 4;
     return response.substring(bodypos);
@@ -26,7 +25,6 @@ String httpsPost(String host, String url, String data) {
     client.println(data.length());
     client.println();
     client.println(data);
-    delay(10);
     String response = client.readString();
     int bodypos =  response.indexOf("\r\n\r\n") + 4;
     return response.substring(bodypos);
