@@ -39,6 +39,10 @@ std::vector<UserEta> getUserEtaPairs(String host, std::vector<String> vectorOfCh
     String restResponse = httpsGet(host, eta_get_url + "/" + channel);
     std::vector<UserEta> userEtasForThisChannel = parseUserEtaPairsFromJson(restResponse);
     userEtas.insert(std::end(userEtas), std::begin(userEtasForThisChannel), std::end(userEtasForThisChannel));
+
+    for (const auto eta: userEtasForThisChannel) {
+       Serial.println("Channel Id: " + channel + " User: " + eta.username + ", ETA: " + eta.eta);
+    }
   }
   return userEtas;
 }
@@ -53,11 +57,7 @@ void loop() {
     Serial.print("Result(response): ");
     std::vector<String> channelList = getVectorOfChannels(host);
     std::vector<UserEta> userEtas = getUserEtaPairs(host, channelList);
-    for (const auto eta : userEtas)
-    {
-      Serial.println("User: " + eta.username + ", ETA: " + eta.eta);
-    }
-  }
+ }
   /* ETA resolution: 1s */
   delay(1000);
 }
