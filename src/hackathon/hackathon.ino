@@ -13,7 +13,6 @@ String channel_create_url = "/api/v2/share";
 String eta_channel_id = "/2dacf261-c2c6-4673-a1d8-ec7e4bc02ff5";
 String data = "{\"email\": \"sencerburak.okumus@tomtom.com\", \"storeName\": \"device-location\", \"valid\": 1000}";
 
-WiFiClientSecure client;
 SSD1306Wire display(I2C_DISPLAY_ADDRESS, SDA_PIN, SCL_PIN);
 
 void Initialize() {
